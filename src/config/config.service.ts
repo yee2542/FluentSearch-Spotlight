@@ -16,16 +16,8 @@ export class ConfigService {
       ORIGIN,
       BCRYPT_SECRET_ROUND,
       PORT,
-      SESSION_EXPIRES,
-      SESSION_SECRET,
       HOSTNAME,
       MAIN_HOSTNAME,
-      STORAGE_ENDPOINT,
-      MINIO_ACCESS_KEY,
-      MINIO_SECRET_KEY,
-      MINIO_SERVER_ENDPOINT,
-      MINIO_SERVER_PORT,
-      MINIO_SERVER_SSL,
     } = process.env as ConfigEnvType;
     return {
       hostname: HOSTNAME,
@@ -51,18 +43,6 @@ export class ConfigService {
         round: Number(BCRYPT_SECRET_ROUND || 10),
       },
       port: Number(PORT || 5000),
-      session: {
-        secret: SESSION_SECRET || 'FluentSearch.SESSION.SECRET',
-        expires: Number(SESSION_EXPIRES || 86400000), // one day
-      },
-      storage_endpoint: STORAGE_ENDPOINT,
-      minio: {
-        endpoint: MINIO_SERVER_ENDPOINT,
-        access_key: MINIO_ACCESS_KEY,
-        secret_key: MINIO_SECRET_KEY,
-        port: Number(MINIO_SERVER_PORT),
-        ssl: MINIO_SERVER_SSL === 'true',
-      },
     };
   }
 }

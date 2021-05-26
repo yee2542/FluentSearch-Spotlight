@@ -18,16 +18,4 @@ export type ConfigAppProviderType = {
     round: number;
   };
   port: number;
-  session: {
-    secret: string;
-    expires: number;
-  };
-  storage_endpoint: string;
-  minio: {
-    endpoint: string;
-    access_key: string;
-    secret_key: string;
-    port: number;
-    ssl: boolean;
-  };
 };
