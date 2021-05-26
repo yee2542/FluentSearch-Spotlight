@@ -14,8 +14,8 @@ export type ConfigAppProviderType = {
   opsKey: string;
   node_env: 'production' | 'development';
   origin: RegExp;
-  bcrypt: {
-    round: number;
-  };
   port: number;
+  elastic: {
+    node: string;
+  };
 };

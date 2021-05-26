@@ -14,10 +14,10 @@ export class ConfigService {
       JWT_EXPIRES,
       OPS_KEY,
       ORIGIN,
-      BCRYPT_SECRET_ROUND,
       PORT,
       HOSTNAME,
       MAIN_HOSTNAME,
+      ELASTIC_NODE,
     } = process.env as ConfigEnvType;
     return {
       hostname: HOSTNAME,
@@ -39,10 +39,11 @@ export class ConfigService {
         (process.env.NODE_ENV as ConfigAppProviderType['node_env']) ||
         'development',
       origin: new RegExp(ORIGIN),
-      bcrypt: {
-        round: Number(BCRYPT_SECRET_ROUND || 10),
-      },
+
       port: Number(PORT || 5000),
+      elastic: {
+        node: ELASTIC_NODE,
+      },
     };
   }
 }
