@@ -1,4 +1,3 @@
-
 FROM node:15.14.0-stretch AS dev
 COPY yarn.lock yarn.lock
 COPY package.json package.json
