@@ -1,0 +1,48 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+directive @extends on INTERFACE | OBJECT
+
+directive @external on FIELD_DEFINITION | OBJECT
+
+directive @key(fields: String!) on INTERFACE | OBJECT
+
+directive @provides(fields: String!) on FIELD_DEFINITION
+
+directive @requires(fields: String!) on FIELD_DEFINITION
+
+type FileInsightDto {
+  fileMeta: FileInsightMeta!
+}
+
+type FileInsightMeta {
+  _id: String!
+  createAt: String!
+  meta: FileInsightMetadata!
+  original_filename: String!
+  owner: String!
+  type: String!
+  updateAt: String!
+}
+
+type FileInsightMetadata {
+  contentType: String!
+  duration: FileInsightVideoDuration
+  extension: String!
+  fps: Float
+  height: Float!
+  size: Float!
+  width: Float!
+}
+
+type FileInsightVideoDuration {
+  hour: Float!
+  minute: Float!
+  original: String!
+  second: Float!
+}
+
+type Query {
+  GetFileInsight(fileId: String!): FileInsightDto!
+}
