@@ -17,6 +17,7 @@ export class ConfigService {
       PORT,
       HOSTNAME,
       MAIN_HOSTNAME,
+      STORAGE_ENDPOINT,
     } = process.env as ConfigEnvType;
     return {
       hostname: HOSTNAME,
@@ -38,8 +39,8 @@ export class ConfigService {
         (process.env.NODE_ENV as ConfigAppProviderType['node_env']) ||
         'development',
       origin: new RegExp(ORIGIN),
-
       port: Number(PORT || 3000),
+      storage_endpoint: STORAGE_ENDPOINT,
     };
   }
 }
