@@ -1,5 +1,5 @@
 {
-  "name": "FluentSearch-Spotlight",
+  "name": "fluentsearch-spotlight",
   "version": "0.0.1",
   "description": "",
   "author": "",
@@ -22,10 +22,8 @@
   },
   "dependencies": {
     "@apollo/federation": "^0.25.1",
-    "@elastic/elasticsearch": "^7.12.0",
     "@nestjs/common": "^7.5.1",
     "@nestjs/core": "^7.5.1",
-    "@nestjs/elasticsearch": "^7.1.0",
     "@nestjs/graphql": "^7.10.6",
     "@nestjs/mongoose": "^7.2.4",
     "@nestjs/platform-express": "^7.5.1",
