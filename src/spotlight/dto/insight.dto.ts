@@ -31,6 +31,9 @@ export class InsightDTO implements Omit<InsightSchema, 'result'> {
   _id: string;
 
   @Field(() => String)
+  owner: string;
+
+  @Field(() => String)
   keyword: string;
 
   @Field(() => ModelEnum)
