@@ -63,6 +63,7 @@ type InsightDTO {
   keyword: String!
   lang: InsightLanguageEnum!
   model: InsightModelEnum!
+  owner: String!
   prob: Float!
   updateAt: String!
 }
@@ -91,4 +92,9 @@ enum InsightModelEnum {
 
 type Query {
   GetFileInsight(fileId: String!): FileInsightDto!
+  GetSearch(owner: String!, word: String!): SearchDTO!
+}
+
+type SearchDTO {
+  results: [FileInsightMeta!]!
 }
