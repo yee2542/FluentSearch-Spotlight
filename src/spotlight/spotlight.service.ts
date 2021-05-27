@@ -58,22 +58,70 @@ export class SpotlightService {
     };
   }
 
-  async searchByKeyword(userId: string, keyword: string) {
-    const searchLists = await this.insightModel.aggregate([
-      {
-        $match: {
-          keyword: {
-            $regex: `${keyword.toLocaleLowerCase()}`,
-            $options: 'i',
+  async searchByKeyword(owner: string, keyword: string) {
+    const insights = await this.insightModel
+      .aggregate([
+        // owner
+        {
+          $match: {
+            owner,
           },
         },
-      },
-      {
-        $project: {
-          fileId: 1,
-          result: 1,
+        {
+          $match: {
+            keyword: {
+              $regex: `${keyword.toLocaleLowerCase()}`,
+              $options: 'i',
+            },
+          },
         },
-      },
-    ]);
+
+        {
+          $addFields: {
+            uri: {
+              $concat: [
+                `${this.configService.get().storage_endpoint}`,
+                '$owner',
+                '/',
+                {
+                  $toString: '$_id',
+                },
+              ],
+            },
+            uri_thumbnail: {
+              $concat: [
+                `${this.configService.get().storage_endpoint}`,
+                '$owner',
+                '/',
+                {
+                  $toString: '$_id',
+                },
+                '/thumbnail',
+              ],
+            },
+          },
+        },
+        // {
+        //   $addFields: {
+        //     uri: { $toObjectId: '$fileId' },
+        //   },
+        // },
+        // {
+        //   $lookup: {
+        //     from: FILES_SCHEMA_NAME,
+        //     localField: 'refsId',
+        //     foreignField: '_id',
+        //     as: 'insights',
+        //   },
+        // },
+
+        // { $unwind: '$insights' },
+      ])
+      .allowDiskUse(true);
+
+    console.log(insights);
+    console.log(JSON.stringify(insights, null, 2));
+
+    return insights;
   }
 }
