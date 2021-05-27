@@ -25,6 +25,8 @@ type FileInsightMeta {
   owner: String!
   type: String!
   updateAt: String!
+  uri: String!
+  uri_thumbnail: String!
 }
 
 type FileInsightMetadata {

@@ -56,6 +56,12 @@ export class FileInsightMeta
   @Field(() => String)
   _id: string;
 
+  @Field(() => String)
+  uri: string;
+
+  @Field(() => String)
+  uri_thumbnail: string;
+
   @Field(() => FileInsightMetadata)
   meta: FileInsightMetadata;
 
