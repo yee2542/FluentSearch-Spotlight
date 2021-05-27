@@ -14,6 +14,7 @@ directive @requires(fields: String!) on FIELD_DEFINITION
 
 type FileInsightDto {
   fileMeta: FileInsightMeta!
+  insights: [InsightDTO!]!
 }
 
 type FileInsightMeta {
@@ -41,6 +42,49 @@ type FileInsightVideoDuration {
   minute: Float!
   original: String!
   second: Float!
+}
+
+type InsightBBox {
+  xmax: Float!
+  xmin: Float!
+  ymax: Float!
+  ymin: Float!
+}
+
+type InsightDTO {
+  _id: String!
+  bbox: InsightBBox
+  createAt: String!
+  fileId: String!
+  fileType: InsightFileTypeEnum!
+  fps: Float
+  keyword: String!
+  lang: InsightLanguageEnum!
+  model: InsightModelEnum!
+  prob: Float!
+  updateAt: String!
+}
+
+enum InsightFileTypeEnum {
+  Image
+  ImageThumbnail
+  Video
+  VideoThumbnail
+}
+
+enum InsightLanguageEnum {
+  enus
+  th
+}
+
+enum InsightModelEnum {
+  basic_fashion
+  classification_21k
+  detection_600
+  faces_emo
+  ilsvrc_googlenet
+  places
+  vgg16
 }
 
 type Query {

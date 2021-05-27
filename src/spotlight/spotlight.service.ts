@@ -27,6 +27,7 @@ export class SpotlightService {
     const insights = await this.insightModel.find({ fileId });
     return {
       fileMeta: file as unknown as FileInsightMeta,
+      insights: insights,
     };
   }
 }
