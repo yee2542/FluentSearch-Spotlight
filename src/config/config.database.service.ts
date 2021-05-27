@@ -9,12 +9,8 @@ import { ConfigService } from './config.service';
 export class ConfigDatabaseService implements MongooseOptionsFactory {
   constructor(private readonly configService: ConfigService) {}
   createMongooseOptions(): MongooseModuleOptions {
-    const {
-      connection,
-      username,
-      password,
-      authSource,
-    } = this.configService.get().database;
+    const { connection, username, password, authSource } =
+      this.configService.get().database;
 
     const auth = {
       user: username,

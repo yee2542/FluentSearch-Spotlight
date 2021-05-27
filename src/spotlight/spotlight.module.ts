@@ -3,6 +3,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { SpotlightService } from './spotlight.service';
 import { INSIGHT_SCHEMA_NAME } from 'fluentsearch-types';
 import insightSchema from 'fluentsearch-types/dist/entity/insight.entity';
+import { SpotlightResolver } from './spotlight.resolver';
 
 @Module({
   imports: [
@@ -10,6 +11,6 @@ import insightSchema from 'fluentsearch-types/dist/entity/insight.entity';
       { name: INSIGHT_SCHEMA_NAME, schema: insightSchema },
     ]),
   ],
-  providers: [SpotlightService],
+  providers: [SpotlightService, SpotlightResolver],
 })
 export class SpotlightModule {}
