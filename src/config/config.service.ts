@@ -17,7 +17,6 @@ export class ConfigService {
       PORT,
       HOSTNAME,
       MAIN_HOSTNAME,
-      ELASTIC_NODE,
     } = process.env as ConfigEnvType;
     return {
       hostname: HOSTNAME,
@@ -40,10 +39,7 @@ export class ConfigService {
         'development',
       origin: new RegExp(ORIGIN),
 
-      port: Number(PORT || 5000),
-      elastic: {
-        node: ELASTIC_NODE,
-      },
+      port: Number(PORT || 3000),
     };
   }
 }
