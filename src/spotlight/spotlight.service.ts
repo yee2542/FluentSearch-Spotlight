@@ -30,4 +30,23 @@ export class SpotlightService {
       insights: insights,
     };
   }
+
+  async searchByKeyword(userId: string, keyword: string) {
+    const searchLists = await this.insightModel.aggregate([
+      {
+        $match: {
+          keyword: {
+            $regex: `${keyword.toLocaleLowerCase()}`,
+            $options: 'i',
+          },
+        },
+      },
+      {
+        $project: {
+          fileId: 1,
+          result: 1,
+        },
+      },
+    ]);
+  }
 }
