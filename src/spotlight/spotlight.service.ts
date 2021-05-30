@@ -38,7 +38,7 @@ export class SpotlightService {
     };
   }
 
-  async getFileInsight(fileId: string): Promise<FileInsightDto> {
+  async getFileImageInsight(fileId: string): Promise<FileInsightDto> {
     const file = await this.fileModel.findById(fileId).lean();
     if (!file) {
       throw new BadRequestException('file not existing');
