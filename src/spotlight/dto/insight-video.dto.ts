@@ -10,11 +10,17 @@ export class InsightClass {
   prob: number;
 
   @Field(() => Number)
-  nFps: number;
+  fps: number;
+
+  @Field(() => String)
+  cat: string;
 }
 
 @ObjectType()
 export class InsightVideoDTO {
   @Field(() => [InsightClass])
   classes: InsightClass[];
+
+  @Field(() => Number)
+  nFps: number;
 }
