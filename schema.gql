@@ -12,6 +12,13 @@ directive @provides(fields: String!) on FIELD_DEFINITION
 
 directive @requires(fields: String!) on FIELD_DEFINITION
 
+type Diemension {
+  extract_height: Float!
+  extract_width: Float!
+  original_height: Float!
+  original_width: Float!
+}
+
 type FileInsightDto {
   fileMeta: FileInsightMeta!
   insights: [InsightDTO!]!
@@ -47,6 +54,7 @@ type FileInsightVideoDuration {
 }
 
 type FileVideoInsightDto {
+  diemension: Diemension!
   fileMeta: FileInsightMeta!
   insights: [InsightVideoDTO!]!
 }
@@ -60,7 +68,8 @@ type InsightBBox {
 
 type InsightClass {
   bbox: InsightBBox!
-  nFps: Float!
+  cat: String!
+  fps: Float!
   prob: Float!
 }
 
@@ -103,6 +112,7 @@ enum InsightModelEnum {
 
 type InsightVideoDTO {
   classes: [InsightClass!]!
+  nFps: Float!
 }
 
 type Query {
