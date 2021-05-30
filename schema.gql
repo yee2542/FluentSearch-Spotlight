@@ -91,7 +91,7 @@ enum InsightModelEnum {
 }
 
 type Query {
-  GetFileInsight(fileId: String!): FileInsightDto!
+  GetFileImageInsight(fileId: String!): FileInsightDto!
   GetSearch(owner: String!, word: String!): SearchDTO!
 }
 
