@@ -8,7 +8,7 @@ import { SpotlightService } from './spotlight.service';
 export class SpotlightResolver {
   constructor(private readonly spotlightService: SpotlightService) {}
   @Query(() => FileInsightDto)
-  async GetFileInsight(@Args('fileId') fileId: string) {
+  async GetFileImageInsight(@Args('fileId') fileId: string) {
     return this.spotlightService.getFileInsight(fileId);
   }
 
