@@ -46,11 +46,22 @@ type FileInsightVideoDuration {
   second: Float!
 }
 
+type FileVideoInsightDto {
+  fileMeta: FileInsightMeta!
+  insights: [InsightVideoDTO!]!
+}
+
 type InsightBBox {
   xmax: Float!
   xmin: Float!
   ymax: Float!
   ymin: Float!
+}
+
+type InsightClass {
+  bbox: InsightBBox!
+  nFps: Float!
+  prob: Float!
 }
 
 type InsightDTO {
@@ -90,8 +101,13 @@ enum InsightModelEnum {
   vgg16
 }
 
+type InsightVideoDTO {
+  classes: [InsightClass!]!
+}
+
 type Query {
   GetFileImageInsight(fileId: String!): FileInsightDto!
+  GetFileVideoInsight(fileId: String!): FileVideoInsightDto!
   GetSearch(owner: String!, word: String!): SearchDTO!
 }
 
