@@ -40,12 +40,18 @@ export class SpotlightService {
     };
   }
 
-  async getFileImageInsight(fileId: string): Promise<FileInsightDto> {
+  async getFileImageInsight(
+    fileId: string,
+    limit = 100,
+  ): Promise<FileInsightDto> {
     const file = await this.fileModel.findById(fileId).lean();
     if (!file) {
       throw new BadRequestException('file not existing');
     }
-    const insights = await this.insightModel.find({ fileId }).lean();
+    const insights = await this.insightModel
+      .find({ fileId })
+      .limit(limit)
+      .lean();
     const { uri, uri_thumbnail } = this.genFileUri(file.owner, fileId);
     return {
       fileMeta: {
@@ -63,7 +69,7 @@ export class SpotlightService {
       .sort({ createAt: -1 })
       .limit(10);
     const result = await Promise.all(
-      recentFiles.map((f) => this.getFileImageInsight(f.fileId)),
+      recentFiles.map((f) => this.getFileImageInsight(f.fileId, 3)),
     );
     return result;
   }
