@@ -141,7 +141,7 @@ export class SpotlightService {
                 '$owner',
                 '/',
                 {
-                  $toString: '$_id',
+                  $toString: '$fileId',
                 },
               ],
             },
@@ -151,7 +151,7 @@ export class SpotlightService {
                 '$owner',
                 '/',
                 {
-                  $toString: '$_id',
+                  $toString: '$fileId',
                 },
                 '/thumbnail',
               ],
