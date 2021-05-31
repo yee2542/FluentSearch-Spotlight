@@ -5,6 +5,7 @@ import {
   FILES_SCHEMA_NAME,
   InsightDocument,
   INSIGHT_SCHEMA_NAME,
+  ModelEnum,
 } from 'fluentsearch-types';
 import { Model } from 'mongoose';
 import { join } from 'path';
@@ -63,6 +64,12 @@ export class SpotlightService {
     }
     const { uri, uri_thumbnail } = this.genFileUri(file.owner, fileId);
 
+    const sampleInsight = await this.insightModel.findOne({ fileId });
+    if (!sampleInsight)
+      throw new BadRequestException(
+        'Insight is processing or file _id not existinh',
+      );
+
     const videoInsights = await this.insightModel.aggregate([
       // match only fileId
       { $match: { fileId } },
@@ -98,6 +105,13 @@ export class SpotlightService {
         uri_thumbnail,
       } as unknown as FileInsightMeta,
       insights: videoInsights,
+      dimension: {
+        original_width: file.meta.width,
+        original_height: file.meta.height,
+        extract_width: sampleInsight?.extractSize?.width || -1,
+        extract_height: sampleInsight?.extractSize?.height || -1,
+      },
+      model: ModelEnum.detection_600,
     };
   }
 
