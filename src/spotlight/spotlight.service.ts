@@ -170,7 +170,7 @@ export class SpotlightService {
     return insights;
   }
 
-  async searchAutoComplete(owner: string, keyword: string) {
+  async searchAutoComplete(owner: string) {
     const allKeyword = await this.insightModel.distinct('keyword', { owner });
     return allKeyword;
   }
