@@ -158,21 +158,6 @@ export class SpotlightService {
             },
           },
         },
-        // {
-        //   $addFields: {
-        //     uri: { $toObjectId: '$fileId' },
-        //   },
-        // },
-        // {
-        //   $lookup: {
-        //     from: FILES_SCHEMA_NAME,
-        //     localField: 'refsId',
-        //     foreignField: '_id',
-        //     as: 'insights',
-        //   },
-        // },
-
-        // { $unwind: '$insights' },
       ])
       .allowDiskUse(true);
 
