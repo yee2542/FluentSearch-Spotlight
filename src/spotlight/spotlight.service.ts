@@ -133,25 +133,28 @@ export class SpotlightService {
           },
         },
 
+        // distinct
+        { $group: { _id: '$fileId' } },
+
         {
           $addFields: {
             uri: {
               $concat: [
                 `${this.configService.get().storage_endpoint}`,
-                '$owner',
+                `${owner}`,
                 '/',
                 {
-                  $toString: '$fileId',
+                  $toString: '$_id',
                 },
               ],
             },
             uri_thumbnail: {
               $concat: [
                 `${this.configService.get().storage_endpoint}`,
-                '$owner',
+                `${owner}`,
                 '/',
                 {
-                  $toString: '$fileId',
+                  $toString: '$_id',
                 },
                 '/thumbnail',
               ],
