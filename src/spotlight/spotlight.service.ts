@@ -57,6 +57,17 @@ export class SpotlightService {
     };
   }
 
+  async getDashboardRecentFile(owner: string) {
+    const recentFiles = await this.insightModel
+      .find({ owner })
+      .sort({ createAt: -1 })
+      .limit(10);
+    const result = await Promise.all(
+      recentFiles.map((f) => this.getFileImageInsight(f.fileId)),
+    );
+    return result;
+  }
+
   async getFileVideoInsight(fileId: string): Promise<FileVideoInsightDto> {
     const file = await this.fileModel.findById(fileId).lean();
     if (!file) {

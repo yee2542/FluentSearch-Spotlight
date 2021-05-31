@@ -119,6 +119,7 @@ type InsightVideoDTO {
 type Query {
   GetFileImageInsight(fileId: String!): FileInsightDto!
   GetFileVideoInsight(fileId: String!): FileVideoInsightDto!
+  GetRecentFileInsightDashboard(owner: String!): [FileInsightDto!]!
   GetSearch(owner: String!, word: String!): SearchDTO!
 }
 
