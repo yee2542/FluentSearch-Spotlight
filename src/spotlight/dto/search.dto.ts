@@ -5,4 +5,7 @@ import { FileInsightMeta } from './file-meta.dto';
 export class SearchDTO {
   @Field(() => [FileInsightMeta])
   results: FileInsightMeta;
+
+  @Field(() => [String])
+  autocomplete: string[];
 }

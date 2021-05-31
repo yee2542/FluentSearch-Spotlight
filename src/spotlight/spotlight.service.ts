@@ -166,4 +166,9 @@ export class SpotlightService {
 
     return insights;
   }
+
+  async searchAutoComplete(owner: string, keyword: string) {
+    const allKeyword = await this.insightModel.distinct('keyword', { owner });
+    return allKeyword;
+  }
 }

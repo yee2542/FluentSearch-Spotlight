@@ -26,8 +26,13 @@ export class SpotlightResolver {
     @Args('word') word: string,
   ): Promise<SearchDTO> {
     const res = await this.spotlightService.searchByKeyword(owner, word);
+    const autocomplete = await this.spotlightService.searchAutoComplete(
+      owner,
+      word,
+    );
     return {
       results: res as unknown as FileInsightMeta,
+      autocomplete,
     };
   }
 }
