@@ -45,7 +45,10 @@ export class SpotlightService {
     if (!file) {
       throw new BadRequestException('file not existing');
     }
-    const insights = await this.insightModel.find({ fileId }).lean();
+    const insights = await this.insightModel
+      .find({ fileId })
+      .maxTimeMS(60000)
+      .lean();
     const { uri, uri_thumbnail } = this.genFileUri(file.owner, fileId);
     return {
       fileMeta: {
