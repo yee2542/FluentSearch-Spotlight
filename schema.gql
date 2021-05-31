@@ -12,6 +12,13 @@ directive @provides(fields: String!) on FIELD_DEFINITION
 
 directive @requires(fields: String!) on FIELD_DEFINITION
 
+type Dimension {
+  extract_height: Float!
+  extract_width: Float!
+  original_height: Float!
+  original_width: Float!
+}
+
 type FileInsightDto {
   fileMeta: FileInsightMeta!
   insights: [InsightDTO!]!
@@ -46,11 +53,25 @@ type FileInsightVideoDuration {
   second: Float!
 }
 
+type FileVideoInsightDto {
+  dimension: Dimension!
+  fileMeta: FileInsightMeta!
+  insights: [InsightVideoDTO!]!
+  model: InsightModelEnum!
+}
+
 type InsightBBox {
   xmax: Float!
   xmin: Float!
   ymax: Float!
   ymin: Float!
+}
+
+type InsightClass {
+  bbox: InsightBBox!
+  cat: String!
+  fps: Float!
+  prob: Float!
 }
 
 type InsightDTO {
@@ -90,8 +111,14 @@ enum InsightModelEnum {
   vgg16
 }
 
+type InsightVideoDTO {
+  classes: [InsightClass!]!
+  nFps: Float!
+}
+
 type Query {
   GetFileImageInsight(fileId: String!): FileInsightDto!
+  GetFileVideoInsight(fileId: String!): FileVideoInsightDto!
   GetSearch(owner: String!, word: String!): SearchDTO!
 }
 

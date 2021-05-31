@@ -1,6 +1,7 @@
 import { Args, Query, Resolver } from '@nestjs/graphql';
 import { FileInsightDto } from './dto/file-insight.dto';
 import { FileInsightMeta } from './dto/file-meta.dto';
+import { FileVideoInsightDto } from './dto/file-video-insight.dto';
 import { SearchDTO } from './dto/search.dto';
 import { SpotlightService } from './spotlight.service';
 
@@ -9,7 +10,14 @@ export class SpotlightResolver {
   constructor(private readonly spotlightService: SpotlightService) {}
   @Query(() => FileInsightDto)
   async GetFileImageInsight(@Args('fileId') fileId: string) {
-    return this.spotlightService.getFileInsight(fileId);
+    return this.spotlightService.getFileImageInsight(fileId);
+  }
+
+  @Query(() => FileVideoInsightDto)
+  async GetFileVideoInsight(
+    @Args('fileId') fileId: string,
+  ): Promise<FileVideoInsightDto> {
+    return this.spotlightService.getFileVideoInsight(fileId);
   }
 
   @Query(() => SearchDTO)

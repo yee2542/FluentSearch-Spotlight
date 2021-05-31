@@ -5,12 +5,14 @@ import {
   FILES_SCHEMA_NAME,
   InsightDocument,
   INSIGHT_SCHEMA_NAME,
+  ModelEnum,
 } from 'fluentsearch-types';
 import { Model } from 'mongoose';
 import { join } from 'path';
 import { ConfigService } from 'src/config/config.service';
 import { FileInsightDto } from './dto/file-insight.dto';
 import { FileInsightMeta } from './dto/file-meta.dto';
+import { FileVideoInsightDto } from './dto/file-video-insight.dto';
 import { InsightDTO } from './dto/insight.dto';
 
 @Injectable()
@@ -38,7 +40,7 @@ export class SpotlightService {
     };
   }
 
-  async getFileInsight(fileId: string): Promise<FileInsightDto> {
+  async getFileImageInsight(fileId: string): Promise<FileInsightDto> {
     const file = await this.fileModel.findById(fileId).lean();
     if (!file) {
       throw new BadRequestException('file not existing');
@@ -52,6 +54,64 @@ export class SpotlightService {
         uri_thumbnail,
       } as unknown as FileInsightMeta,
       insights: insights as unknown as InsightDTO[],
+    };
+  }
+
+  async getFileVideoInsight(fileId: string): Promise<FileVideoInsightDto> {
+    const file = await this.fileModel.findById(fileId).lean();
+    if (!file) {
+      throw new BadRequestException('file not existing');
+    }
+    const { uri, uri_thumbnail } = this.genFileUri(file.owner, fileId);
+
+    const sampleInsight = await this.insightModel.findOne({ fileId });
+    if (!sampleInsight)
+      throw new BadRequestException(
+        'Insight is processing or file _id not existinh',
+      );
+
+    const videoInsights = await this.insightModel.aggregate([
+      // match only fileId
+      { $match: { fileId } },
+
+      // project
+      { $project: { fps: 1, prob: 1, bbox: 1, keyword: 1 } },
+      { $addFields: { cat: '$keyword' } },
+      { $unset: ['keyword'] },
+
+      // group by fps
+      {
+        $group: {
+          _id: '$fps',
+          // fps: 'fps',
+          classes: {
+            $push: '$$ROOT',
+          },
+        },
+      },
+
+      // add fps field
+      { $addFields: { nFps: '$_id' } },
+      { $unset: ['_id'] },
+    ]);
+
+    console.log(videoInsights);
+    console.log(JSON.stringify(videoInsights, null, 2));
+
+    return {
+      fileMeta: {
+        ...file,
+        uri,
+        uri_thumbnail,
+      } as unknown as FileInsightMeta,
+      insights: videoInsights,
+      dimension: {
+        original_width: file.meta.width,
+        original_height: file.meta.height,
+        extract_width: sampleInsight?.extractSize?.width || -1,
+        extract_height: sampleInsight?.extractSize?.height || -1,
+      },
+      model: ModelEnum.detection_600,
     };
   }
 
