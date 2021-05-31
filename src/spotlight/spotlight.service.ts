@@ -133,12 +133,15 @@ export class SpotlightService {
           },
         },
 
+        // distinct
+        { $group: { _id: '$fileId' } },
+
         {
           $addFields: {
             uri: {
               $concat: [
                 `${this.configService.get().storage_endpoint}`,
-                '$owner',
+                `${owner}`,
                 '/',
                 {
                   $toString: '$_id',
@@ -148,7 +151,7 @@ export class SpotlightService {
             uri_thumbnail: {
               $concat: [
                 `${this.configService.get().storage_endpoint}`,
-                '$owner',
+                `${owner}`,
                 '/',
                 {
                   $toString: '$_id',
@@ -158,21 +161,6 @@ export class SpotlightService {
             },
           },
         },
-        // {
-        //   $addFields: {
-        //     uri: { $toObjectId: '$fileId' },
-        //   },
-        // },
-        // {
-        //   $lookup: {
-        //     from: FILES_SCHEMA_NAME,
-        //     localField: 'refsId',
-        //     foreignField: '_id',
-        //     as: 'insights',
-        //   },
-        // },
-
-        // { $unwind: '$insights' },
       ])
       .allowDiskUse(true);
 
@@ -180,5 +168,10 @@ export class SpotlightService {
     console.log(JSON.stringify(insights, null, 2));
 
     return insights;
+  }
+
+  async searchAutoComplete(owner: string) {
+    const allKeyword = await this.insightModel.distinct('keyword', { owner });
+    return allKeyword;
   }
 }
