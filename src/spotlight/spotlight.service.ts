@@ -81,33 +81,32 @@ export class SpotlightService {
         'Insight is processing or file _id not existinh',
       );
 
-    const videoInsights = await this.insightModel.aggregate([
-      // match only fileId
-      { $match: { fileId } },
+    const videoInsights = await this.insightModel
+      .aggregate([
+        // match only fileId
+        { $match: { fileId } },
 
-      // project
-      { $project: { fps: 1, prob: 1, bbox: 1, keyword: 1 } },
-      { $addFields: { cat: '$keyword' } },
-      { $unset: ['keyword'] },
+        // project
+        { $project: { fps: 1, prob: 1, bbox: 1, keyword: 1 } },
+        { $addFields: { cat: '$keyword' } },
+        { $unset: ['keyword'] },
 
-      // group by fps
-      {
-        $group: {
-          _id: '$fps',
-          // fps: 'fps',
-          classes: {
-            $push: '$$ROOT',
+        // group by fps
+        {
+          $group: {
+            _id: '$fps',
+            // fps: 'fps',
+            classes: {
+              $push: '$$ROOT',
+            },
           },
         },
-      },
 
-      // add fps field
-      { $addFields: { nFps: '$_id' } },
-      { $unset: ['_id'] },
-    ]);
-
-    console.log(videoInsights);
-    console.log(JSON.stringify(videoInsights, null, 2));
+        // add fps field
+        { $addFields: { nFps: '$_id' } },
+        { $unset: ['_id'] },
+      ])
+      .allowDiskUse(true);
 
     return {
       fileMeta: {
@@ -174,9 +173,6 @@ export class SpotlightService {
         },
       ])
       .allowDiskUse(true);
-
-    console.log(insights);
-    console.log(JSON.stringify(insights, null, 2));
 
     return insights;
   }
