@@ -57,6 +57,7 @@ type FileVideoInsightDto {
   dimension: Dimension!
   fileMeta: FileInsightMeta!
   insights: [InsightVideoDTO!]!
+  model: InsightModelEnum!
 }
 
 type InsightBBox {
