@@ -8,6 +8,12 @@ import { SpotlightService } from './spotlight.service';
 @Resolver()
 export class SpotlightResolver {
   constructor(private readonly spotlightService: SpotlightService) {}
+
+  @Query(() => [FileInsightDto])
+  async GetRecentFileInsightDashboard(@Args('owner') owner: string) {
+    return this.spotlightService.getDashboardRecentFile(owner);
+  }
+
   @Query(() => FileInsightDto)
   async GetFileImageInsight(@Args('fileId') fileId: string) {
     return this.spotlightService.getFileImageInsight(fileId);
